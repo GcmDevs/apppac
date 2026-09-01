@@ -8,7 +8,8 @@ import type { Patient } from '@/types/patient';
 
 const AUTH_STORAGE_KEY = 'eklipse-auth-session';
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? 'http://localhost:8104';
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ??
+  'https://eklipse.grupoclinicamedicos.com:8104';
 const AUTH_CONTEXT = import.meta.env.VITE_AUTH_CONTEXT ?? 'ALTACENTRO';
 
 export type AppPacienteRol = 'USUARIO' | 'PACIENTE';

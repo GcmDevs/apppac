@@ -22,7 +22,8 @@ export const EVENT_SOCKET_EVENTS = {
 
 const PATIENTS_FRONTEND_CLIENT = 'pacientes-frontend';
 const SOCKET_URL =
-  import.meta.env.VITE_SOCKET_URL?.replace(/\/$/, '') ?? 'http://localhost:8005/socket';
+  import.meta.env.VITE_SOCKET_URL?.replace(/\/$/, '') ??
+  'https://eklipse.grupoclinicamedicos.com:8005/socket';
 const EVENT_ACK_TIMEOUT_MS = 12_000;
 
 let eventSocket: Socket | null = null;

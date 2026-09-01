@@ -3,7 +3,8 @@ import { getAuthSession } from '@/lib/auth';
 import type { QuickAccessCode, SymptomDefinition } from '@/types/symptoms';
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? 'http://localhost:8104';
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ??
+  'https://eklipse.grupoclinicamedicos.com:8104';
 
 type BackendSymptomIntensity = {
   id: number;

@@ -172,7 +172,11 @@ export class LoginUserImpl {
       await qr.commitTransaction();
       await ekQr.commitTransaction();
 
-      return { token, passwordIsReset: pacAsUser.passwordIsReset };
+      return {
+        token,
+        passwordIsReset: pacAsUser.passwordIsReset,
+        sexo: paciente.genderCode === 1 ? 'M' : paciente.genderCode === 2 ? 'F' : null,
+      };
     } catch (error: any) {
       await qr.rollbackTransaction();
       await ekQr.rollbackTransaction();

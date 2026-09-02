@@ -10,4 +10,7 @@ export class _PrivSecPatientOrm {
 
   @Column({ name: 'GPANOMCOM' })
   fullName: string;
+
+  @Column({ name: 'GPASEXPAC', nullable: true })
+  genderCode?: number;
 }

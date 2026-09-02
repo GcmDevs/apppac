@@ -1,6 +1,9 @@
 {
   "name": "Eklipse Paciente",
   "short_name": "Eklipse",
+  "id": "/",
+  "lang": "es-CO",
+  "dir": "ltr",
   "description": "Acompanamiento y seguimiento oncologico para pacientes.",
   "start_url": "/login",
   "display": "standalone",
@@ -11,7 +14,7 @@
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

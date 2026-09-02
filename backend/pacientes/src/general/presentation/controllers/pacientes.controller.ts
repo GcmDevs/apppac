@@ -8,7 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { CommonGuards } from '@common/presentation/decorators';
 import { ConsultarPacienteAutenticadoImpl } from '@gen/general/infrastructure/services';
-import { PacienteResponseDto } from '@gen/general/presentation/dtos';
+import { PerfilPacienteResponseDto } from '@gen/general/presentation/dtos';
 
 @CommonGuards()
 @ApiTags('Pacientes')
@@ -23,7 +23,7 @@ export class PacientesController {
   })
   @ApiOkResponse({
     description: 'Informacion general del paciente autenticado.',
-    type: PacienteResponseDto,
+    type: PerfilPacienteResponseDto,
   })
   @ApiNotFoundResponse({ description: 'No existe un paciente asociado al identificador del token.' })
   @ApiUnauthorizedResponse({ description: 'El token no fue proporcionado o no es valido.' })

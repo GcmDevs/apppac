@@ -12,6 +12,7 @@ import type { NewEventInvitation } from '@/types/event';
 import { AppHeader } from './AppHeader';
 import { getPageTitle } from './navigation';
 import { Sidebar } from './Sidebar';
+import { MobileBottomNav } from './MobileBottomNav';
 import { patientNavigationItems } from './navigation';
 
 export function MainLayout() {
@@ -77,22 +78,20 @@ export function MainLayout() {
   ).length;
 
   return (
-    <div className={isFocusRoute ? 'app-layout app-layout-focus' : 'app-layout'}>
+    <div className="app-layout">
       <EventSocketBridge />
-      {isFocusRoute ? null : (
-        <Sidebar
-          mobileOpen={mobileOpen}
-          navigationItems={patientNavigationItems}
-          brandTitle='Eklipse Paciente'
-          brandSubtitle='Tu bienestar, nuestro apoyo'
-          badgeCount={invitationBadgeCount}
-          roleLabel='Paciente'
-          onCloseMobile={() => setMobileOpen(false)}
-          onLogout={handleLogout}
-        />
-      )}
+      <Sidebar
+        mobileOpen={mobileOpen}
+        navigationItems={patientNavigationItems}
+        brandTitle='Eklipse Paciente'
+        brandSubtitle='Tu bienestar, nuestro apoyo'
+        badgeCount={invitationBadgeCount}
+        roleLabel='Paciente'
+        onCloseMobile={() => setMobileOpen(false)}
+        onLogout={handleLogout}
+      />
 
-      <div className={isFocusRoute ? 'app-content app-content-focus' : 'app-content'}>
+      <div className="app-content">
         {isFocusRoute ? null : (
           <AppHeader
             pageTitle={getPageTitle(location.pathname, 'patient')}
@@ -103,10 +102,11 @@ export function MainLayout() {
           />
         )}
 
-        <div className={isFocusRoute ? 'app-main app-main-focus' : 'app-main'}>
+        <div className="app-main">
           <Outlet />
         </div>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }

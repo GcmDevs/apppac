@@ -1,22 +1,41 @@
 :root {
-  --color-bg: #f4f7f8;
-  --color-surface: #ffffff;
-  --color-surface-alt: #edf6f7;
-  --color-text: #17313f;
-  --color-text-muted: #54707d;
-  --color-border: #d7e4e8;
-  --color-primary: #1f5268;
+  --background: #f4f7f8;
+  --foreground: #17313f;
+  --primary: #1f5268;
+  --primary-strong: #163e51;
+  --primary-foreground: #ffffff;
+  --secondary: #4aa6a2;
+  --secondary-soft: #d7f0ee;
+  --secondary-foreground: #163e51;
+  --accent: #d97f6f;
+  --accent-foreground: #17313f;
+  --muted: #edf6f7;
+  --muted-foreground: #54707d;
+  --card: #ffffff;
+  --card-foreground: #17313f;
+  --border: #d7e4e8;
+  --success: #27877f;
+  --warning: #b8772e;
+  --destructive: #8b4f4c;
+  --radius: 18px;
+  --color-bg: var(--background);
+  --color-surface: var(--card);
+  --color-surface-alt: var(--muted);
+  --color-text: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
   --color-primary-strong: #163e51;
-  --color-secondary: #4aa6a2;
+  --color-secondary: var(--secondary);
   --color-secondary-soft: #d7f0ee;
   --color-accent: #d97f6f;
   --color-accent-soft: #faece8;
   --color-danger: #8b4f4c;
   --shadow-soft: 0 20px 45px rgba(18, 55, 70, 0.08);
   --shadow-card: 0 12px 30px rgba(25, 67, 84, 0.08);
-  --radius-lg: 24px;
-  --radius-md: 18px;
-  --radius-sm: 12px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 7px;
   font-family:
     'Segoe UI',
     system-ui,
@@ -46,6 +65,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 body,
@@ -73,7 +93,28 @@ svg {
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
 }
+
+.content-skeleton {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+}
+
+.content-skeleton-line {
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #e7eff1 20%, #f8fbfb 42%, #e7eff1 64%);
+  background-size: 200% 100%;
+  animation: contentSkeleton 1.35s ease-in-out infinite;
+}
+
+.content-skeleton-line:nth-child(2) { width: 78%; }
+.content-skeleton-line:nth-child(3) { width: 58%; }
+.profile-skeleton { min-height: 150px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); }
+
+@keyframes contentSkeleton { to { background-position: -200% 0; } }
 
 :focus-visible {
   outline: 3px solid rgba(74, 166, 162, 0.45);
@@ -4965,6 +5006,8 @@ svg {
   display: none;
 }
 
+.mobile-bottom-nav { display: none; }
+
 .history-page {
   gap: 18px;
 }
@@ -5033,6 +5076,40 @@ svg {
 }
 
 @media (max-width: 720px) {
+  .app-content { padding-bottom: calc(86px + env(safe-area-inset-bottom)); }
+  .app-content-focus { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .mobile-bottom-nav {
+    position: fixed;
+    right: 10px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 10px;
+    z-index: 50;
+    min-height: 64px;
+    padding: 6px;
+    border: 1px solid rgba(215, 228, 232, 0.96);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 12px 30px rgba(18, 55, 70, 0.16);
+    backdrop-filter: blur(18px);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .mobile-bottom-nav-link {
+    min-height: 50px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    gap: 2px;
+    color: var(--muted-foreground);
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+.mobile-bottom-nav-link.is-active { background: var(--secondary-soft); color: var(--primary-strong); }
+
+  @media (max-height: 520px) and (orientation: landscape) {
+    .mobile-bottom-nav { min-height: 54px; border-radius: 16px; }
+    .mobile-bottom-nav-link { min-height: 42px; grid-template-columns: auto auto; gap: 6px; font-size: 0.72rem; }
+  }
   .home-hero-panel {
     grid-template-columns: minmax(0, 1fr) 102px;
     padding: 14px;
@@ -5178,4 +5255,55 @@ svg {
   .invitation-detail-secondary {
     min-height: 42px;
   }
+}
+
+/* Fase 5: superficies estructuradas, menos elevación y radios más contenidos. */
+.app-layout { background: #f4f7f8; gap: 0; }
+.sidebar { top: 16px; width: 278px; height: calc(100vh - 32px); margin-left: 16px; padding: 18px 16px; border: 1px solid rgba(215, 228, 232, .92); border-radius: 24px; background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(249, 252, 252, .98)); backdrop-filter: blur(18px); box-shadow: none; }
+.app-content { padding-left: 20px; }
+.app-topbar { border-radius: var(--radius-md); background: #fff; backdrop-filter: none; box-shadow: none; }
+.auth-panel, .login-card, .hero-card, .info-card, .emergency-card, .simple-card, .profile-hero, .profile-section, .profile-note { box-shadow: none; border-radius: var(--radius-md); }
+.primary-button, .secondary-button, .ghost-button { min-height: 46px; border-radius: var(--radius-sm); box-shadow: none; }
+.primary-button:hover, .secondary-button:hover, .ghost-button:hover { transform: none; filter: brightness(.96); }
+.input-frame { min-height: 48px; border-radius: var(--radius-sm); background: #fff; }
+.user-menu-trigger, .user-menu-popover { border-radius: var(--radius-sm); }
+
+@media (max-width: 1024px) {
+  .sidebar { top: 0; height: 100dvh; margin-left: 0; border: 0; border-radius: 0 28px 28px 0; box-shadow: var(--shadow-soft); }
+}
+
+@media (max-width: 720px) {
+  .app-content { padding-left: 12px; }
+  .mobile-bottom-nav { right: 10px; bottom: max(8px, env(safe-area-inset-bottom)); left: 10px; min-height: 64px; padding: 6px; border: 1px solid rgba(215, 228, 232, .96); border-radius: 20px; background: rgba(255, 255, 255, .96); box-shadow: 0 12px 30px rgba(18, 55, 70, .16); backdrop-filter: blur(18px); }
+  .mobile-bottom-nav-link { min-height: 50px; border-radius: 14px; color: var(--muted-foreground); }
+  .mobile-bottom-nav-link.is-active { background: var(--secondary-soft); color: var(--primary-strong); }
+  .mobile-bottom-nav-link.is-active::after { content: none; }
+  .app-content { padding-bottom: calc(86px + env(safe-area-inset-bottom)); }
+}
+
+
+/* Fase 3: ritmo compacto para reducir desplazamiento sin perder áreas táctiles. */
+@media (min-width: 721px) {
+  .app-content { padding: 16px 20px 24px 0; }
+  .app-topbar { min-height: 68px; margin-bottom: 16px; padding: 10px 16px; }
+  .topbar-titles h1 { font-size: 1.5rem; }
+  .page-shell { padding-bottom: 32px; }
+  .hero-card, .content-block, .emergency-card { margin-bottom: 20px; }
+  .hero-card { padding: 18px 20px; gap: 14px; }
+  .auth-layout { gap: 18px; padding: 18px 0; }
+  .auth-panel { min-height: 0; padding: 26px; }
+  .login-card { padding: 26px; }
+  .login-card-header { gap: 18px; margin-bottom: 22px; }
+  .login-form { gap: 16px; }
+  .profile-hero, .profile-section, .profile-note { padding: 20px; }
+}
+
+@media (max-width: 720px) {
+  .page-shell { padding-bottom: 28px; }
+  .app-topbar { min-height: 64px; margin-bottom: 12px; }
+  .profile-hero, .profile-section, .profile-note, .mood-section, .body-map-card { border-radius: 18px; }
+  .content-block, .hero-card, .emergency-card { margin-bottom: 18px; }
+  .profile-grid, .mood-form { gap: 14px; }
+  .profile-hero-highlights { gap: 8px; }
+  .mobile-bottom-nav-link { min-height: 48px; }
 }

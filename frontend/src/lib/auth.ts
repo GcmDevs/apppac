@@ -24,6 +24,7 @@ type LoginPayload = {
 type LoginResponse = {
   token: string;
   passwordIsReset: boolean;
+  sexo: 'M' | 'F' | null;
 };
 
 type TokenPayload = {
@@ -60,7 +61,7 @@ export async function authenticateUser({
   const tokenPayload = decodeTokenPayload(data.token);
 
   return {
-    user: createAuthUser(document, tokenPayload),
+    user: createAuthUser(document, tokenPayload, data.sexo),
     keepSignedIn,
     token: data.token,
     passwordIsReset: data.passwordIsReset,
@@ -162,7 +163,11 @@ function decodeTokenPayload(token: string): TokenPayload {
   }
 }
 
-function createAuthUser(document: string, tokenPayload: TokenPayload): AuthUser {
+function createAuthUser(
+  document: string,
+  tokenPayload: TokenPayload,
+  sexo: LoginResponse['sexo']
+): AuthUser {
   const patientDocument = tokenPayload.dcm ?? document;
   const patient = findMockPatientByDocument(patientDocument);
   const fullName = tokenPayload.fnm ?? patient?.shortName ?? patientDocument;
@@ -175,7 +180,7 @@ function createAuthUser(document: string, tokenPayload: TokenPayload): AuthUser 
     document: patientDocument,
     name: fullName,
     initials: getInitials(fullName),
-    avatarVariant: patient?.sex === 'Masculino' ? 'male' : 'female',
+    avatarVariant: sexo === 'M' ? 'male' : sexo === 'F' ? 'female' : patient?.sex === 'Masculino' ? 'male' : 'female',
   };
 }
 

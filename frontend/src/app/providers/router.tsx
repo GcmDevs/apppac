@@ -1,5 +1,5 @@
 import { CircleHelp } from 'lucide-react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { AdminDashboardPage } from '@/pages/admin/AdminDashboardPage';
@@ -22,7 +22,7 @@ import { ProtectedRoute } from '@/routes/ProtectedRoute';
 import { PublicOnlyRoute } from '@/routes/PublicOnlyRoute';
 import { RootRedirect } from '@/routes/RootRedirect';
 
-export const appRouter = createBrowserRouter([
+export const appRouter = createHashRouter([
   {
     path: '/',
     element: <RootRedirect />,

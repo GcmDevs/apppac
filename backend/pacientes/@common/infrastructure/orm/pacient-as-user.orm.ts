@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { _PrivSecPacAreaOrm } from './patient-area.orm';
 
 @Entity('APPACUSUARIO')
 export class _PrivSecPacAsUserOrm {
@@ -25,4 +26,10 @@ export class _PrivSecPacAsUserOrm {
 
   @Column({ name: 'ISRESET' })
   passwordIsReset: boolean;
+
+  @Column({ name: 'DELETEDAT' })
+  deletedAt: Date;
+
+  @ManyToMany(() => _PrivSecPacAreaOrm, areas => areas.pacientes)
+  areas: _PrivSecPacAreaOrm[];
 }

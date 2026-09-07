@@ -1,6 +1,6 @@
 export type EventAttendanceStatus = 1 | 2 | 3;
 
-export type CreateEventInput = {
+export type EventInput = {
   title: string;
   description: string;
   location: string;
@@ -9,13 +9,30 @@ export type CreateEventInput = {
   organizerDescription: string;
 };
 
-export type UpdateEventInput = CreateEventInput & {
+export type CreateEventInput = EventInput & {
+  inviteeUserIds: number[];
+};
+
+export type UpdateEventInput = EventInput & {
   eventId: number;
 };
 
-export type NewEvent = CreateEventInput & {
+export type NewEvent = EventInput & {
   id: number;
   createdAt: string;
+};
+
+export type EventAudiencePatient = {
+  userId: number;
+  document: string;
+  fullName: string;
+};
+
+export type EventAudienceArea = {
+  id: number;
+  code: string;
+  name: string;
+  patients: EventAudiencePatient[];
 };
 
 export type NewEventInvitation = NewEvent & {

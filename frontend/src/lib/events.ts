@@ -4,6 +4,7 @@ import type {
   CreateEventInput,
   CreatedEvent,
   EventActionAck,
+  EventAudienceArea,
   NewEventInvitation,
   RegisteredEvent,
   UpdateEventInput,
@@ -12,6 +13,7 @@ import type {
 
 export const EVENT_SOCKET_EVENTS = {
   create: 'events:event:create',
+  audienceList: 'events:audience:list',
   listCreated: 'events:event:list-created',
   update: 'events:event:update',
   invitationCreated: 'events:invitation:new',
@@ -22,7 +24,7 @@ export const EVENT_SOCKET_EVENTS = {
 
 const PATIENTS_FRONTEND_CLIENT = 'pacientes-frontend';
 const SOCKET_URL =
-  import.meta.env.VITE_SOCKET_URL?.replace(/\/$/, '') ?? 'https://eklipse.grupoclinicamedicos.com:8005/socket';
+  import.meta.env.VITE_SOCKET_URL?.replace(/\/$/, '') ?? 'http://localhost:3000/socket';
 const EVENT_ACK_TIMEOUT_MS = 12_000;
 
 let eventSocket: Socket | null = null;
@@ -83,6 +85,10 @@ export function createEvent(input: CreateEventInput): Promise<CreatedEvent> {
 
 export function getMyCreatedEvents(): Promise<RegisteredEvent[]> {
   return emitEventRequest<RegisteredEvent[]>(EVENT_SOCKET_EVENTS.listCreated);
+}
+
+export function getEventAudience(): Promise<EventAudienceArea[]> {
+  return emitEventRequest<EventAudienceArea[]>(EVENT_SOCKET_EVENTS.audienceList);
 }
 
 export function updateEvent(input: UpdateEventInput): Promise<UpdatedEvent> {

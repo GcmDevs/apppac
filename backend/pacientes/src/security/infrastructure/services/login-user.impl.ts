@@ -7,22 +7,22 @@ import {
 } from '@gen/security/domain/types/gen/usuarios';
 import { cryptoServices as crypto, IAuthToken, RSAServices } from '@common/application/services';
 import { _PrivSecPacAsUserOrm } from '@common/infrastructure/orm/pacient-as-user.orm';
+import { _PrivSecPatientOrm } from '@common/infrastructure/orm/pacient.orm';
 import { _PrivSecUserOrm } from '@common/infrastructure/orm/user.orm';
-import { gcmContextFactory } from '@common/domain/types';
 import { LoginUserDto } from '@gen/security/presentation/dtos';
 import { switchConn } from '@common/infrastructure/services';
+import { gcmContextFactory } from '@common/domain/types';
 import { dataToUsuExtOrm } from '../factories';
 import { processEnv } from '@env';
-import { _PrivSecPatientOrm } from '@common/infrastructure/orm/pacient.orm';
 
 @Injectable()
 export class LoginUserImpl {
   public async execute(body: LoginUserDto) {
-    if (body.authAsUser) return this._executeAsUser(body);
+    if (body.authAsUser) return this._asUser(body);
     else return this._asPaciente(body);
   }
 
-  private async _executeAsUser(body: LoginUserDto) {
+  private async _asUser(body: LoginUserDto) {
     const errorMsg = 'Usuario y/o clave incorrecta';
     const { username, password } = body;
     const context = gcmContextFactory(body.context);
@@ -106,16 +106,13 @@ export class LoginUserImpl {
     const conn = switchConn(context);
 
     const qr = conn.createQueryRunner();
-    const ekQr = conn.createQueryRunner();
 
     await qr.connect();
-    await ekQr.connect();
     try {
       await qr.startTransaction();
-      await ekQr.startTransaction();
 
       const pacienteRp = qr.manager.getRepository(_PrivSecPatientOrm);
-      const ekPacienteRp = ekQr.manager.getRepository(_PrivSecPacAsUserOrm);
+      const ekPacienteRp = qr.manager.getRepository(_PrivSecPacAsUserOrm);
 
       const paciente = await pacienteRp.findOne({ where: { document: username } });
       if (!paciente) throw new Error('El paciente no ha sido atendido en esta clinica');
@@ -170,7 +167,6 @@ export class LoginUserImpl {
       }
 
       await qr.commitTransaction();
-      await ekQr.commitTransaction();
 
       return {
         token,
@@ -179,11 +175,9 @@ export class LoginUserImpl {
       };
     } catch (error: any) {
       await qr.rollbackTransaction();
-      await ekQr.rollbackTransaction();
       throw new Error(error.message);
     } finally {
       await qr.release();
-      await ekQr.release();
     }
   }
 }

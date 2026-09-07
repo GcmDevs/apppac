@@ -3845,6 +3845,100 @@ svg {
 
 .event-invite-panel {
   box-shadow: none;
+  display: grid;
+  gap: 18px;
+}
+
+.event-area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.event-area-option,
+.event-patient-option {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 14px;
+  border: 1px solid rgba(211, 226, 232, 0.95);
+  border-radius: 15px;
+  background: rgba(248, 252, 252, 0.96);
+}
+
+.event-area-option:has(input:checked),
+.event-patient-option:has(input:checked) {
+  border-color: rgba(74, 166, 162, 0.46);
+  background: rgba(231, 248, 247, 0.96);
+}
+
+.event-area-option input,
+.event-patient-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+}
+
+.event-area-option span,
+.event-patient-option span,
+.event-selected-header > div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.event-area-option strong,
+.event-patient-option strong,
+.event-selected-header strong {
+  color: var(--color-primary-strong);
+}
+
+.event-area-option small,
+.event-patient-option small,
+.event-selected-header small,
+.event-audience-status {
+  color: var(--color-text-muted);
+}
+
+.event-selected-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.event-patient-search {
+  min-height: 42px;
+  width: min(320px, 100%);
+  padding: 0 12px;
+  border: 1px solid rgba(211, 226, 232, 0.95);
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--color-text-muted);
+}
+
+.event-patient-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.event-patient-list {
+  max-height: 320px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 8px;
+}
+
+.event-audience-status {
+  margin: 0;
+  padding: 12px 0;
 }
 
 .event-invitees-input {

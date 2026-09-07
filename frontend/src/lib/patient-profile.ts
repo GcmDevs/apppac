@@ -40,8 +40,6 @@ export async function fetchPatientProfile(signal?: AbortSignal): Promise<Patient
 
 async function getApiErrorMessage(response: Response) {
   try {
-    const errorBody = (await response.json()) as { message?: string | string[] };
-    const message = errorBody.message;
     if (response.status === 401 || response.status === 403) {
       return 'Tu sesión ya no está disponible. Ingresa nuevamente para consultar tu perfil.';
     }

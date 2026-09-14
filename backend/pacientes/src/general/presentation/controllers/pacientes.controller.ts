@@ -25,7 +25,9 @@ export class PacientesController {
     description: 'Informacion general del paciente autenticado.',
     type: PerfilPacienteResponseDto,
   })
-  @ApiNotFoundResponse({ description: 'No existe un paciente asociado al identificador del token.' })
+  @ApiNotFoundResponse({
+    description: 'No existe un paciente asociado al identificador del token.',
+  })
   @ApiUnauthorizedResponse({ description: 'El token no fue proporcionado o no es valido.' })
   public async fetchAuthenticatedPatient() {
     return await this._consultarPacienteAutenticado.execute();

@@ -1,8 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  AccesoRapidoSintomaCode,
-  RegionCorporalSintomaCode,
-} from '@gen/general/domain/types';
+import { AccesoRapidoSintomaCode, RegionCorporalSintomaCode } from '@gen/general/domain/types';
 
 export class RegionCorporalSintomaResponseDto {
   @ApiProperty({ enum: [1, 2, 3, 4, 5], example: 1 })

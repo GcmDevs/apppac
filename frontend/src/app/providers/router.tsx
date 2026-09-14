@@ -1,13 +1,6 @@
 import { CircleHelp } from 'lucide-react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { AdminLayout } from '@/components/layout/AdminLayout';
+import { createBrowserRouter } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { AdminDashboardPage } from '@/pages/admin/AdminDashboardPage';
-import { AdminEventFormPage } from '@/pages/admin/AdminEventFormPage';
-import { AdminEventsPage } from '@/pages/admin/AdminEventsPage';
-import { AdminPatientDetailPage } from '@/pages/admin/AdminPatientDetailPage';
-import { AdminPatientsPage } from '@/pages/admin/AdminPatientsPage';
-import { AdminProfilePage } from '@/pages/admin/AdminProfilePage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { ComingSoonPage } from '@/pages/home/ComingSoonPage';
 import { HistoryPage } from '@/pages/history/HistoryPage';
@@ -83,48 +76,6 @@ export const appRouter = createBrowserRouter([
           {
             path: '*',
             element: <NotFoundPage />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    element: <ProtectedRoute allowedRoles={['admin']} />,
-    children: [
-      {
-        element: <AdminLayout />,
-        children: [
-          {
-            path: '/admin',
-            element: <Navigate to='/admin/inicio' replace />,
-          },
-          {
-            path: '/admin/inicio',
-            element: <AdminDashboardPage />,
-          },
-          {
-            path: '/admin/pacientes',
-            element: <AdminPatientsPage />,
-          },
-          {
-            path: '/admin/pacientes/:patientId',
-            element: <AdminPatientDetailPage />,
-          },
-          {
-            path: '/admin/eventos',
-            element: <AdminEventsPage />,
-          },
-          {
-            path: '/admin/eventos/nuevo',
-            element: <AdminEventFormPage />,
-          },
-          {
-            path: '/admin/eventos/:eventId/editar',
-            element: <AdminEventFormPage />,
-          },
-          {
-            path: '/admin/perfil',
-            element: <AdminProfilePage />,
           },
         ],
       },

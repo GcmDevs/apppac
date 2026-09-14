@@ -79,7 +79,12 @@ export function getAuthSession(): AuthSession | null {
   }
 
   try {
-    return JSON.parse(storedSession) as AuthSession;
+    const session = JSON.parse(storedSession) as AuthSession;
+    if (session.user.role === 'admin') {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      return null;
+    }
+    return session;
   } catch {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     return null;
@@ -106,8 +111,8 @@ export function isPatientSession() {
   return getCurrentUserRole() === 'patient';
 }
 
-export function getDefaultRouteForRole(role: UserRole | null) {
-  return role === 'admin' ? '/admin/inicio' : '/inicio';
+export function getDefaultRouteForRole(_role: UserRole | null) {
+  return '/inicio';
 }
 
 export function getCurrentPatient(): Patient {

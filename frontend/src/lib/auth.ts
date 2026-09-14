@@ -200,7 +200,14 @@ function createAuthUser(
     document: patientDocument,
     name: fullName,
     initials: getInitials(fullName),
-    avatarVariant: sexo === 'M' ? 'male' : sexo === 'F' ? 'female' : patient?.sex === 'Masculino' ? 'male' : 'female',
+    avatarVariant:
+      sexo === 'M'
+        ? 'male'
+        : sexo === 'F'
+          ? 'female'
+          : patient?.sex === 'Masculino'
+            ? 'male'
+            : 'female',
   };
 }
 

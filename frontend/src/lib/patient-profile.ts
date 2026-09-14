@@ -1,8 +1,6 @@
 import { getAuthSession } from '@/lib/auth';
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ??
-  'https://eklipse.grupoclinicamedicos.com:8104';
+const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8104';
 
 export type PatientProfile = {
   id: number;

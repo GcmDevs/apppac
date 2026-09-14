@@ -3,9 +3,7 @@ import { defaultMockPatient } from '@/data/mockPatient';
 import type { BodyRegionCode, SymptomRecord } from '@/types/symptoms';
 
 export const SYMPTOM_RECORDS_STORAGE_KEY = 'eklipse_symptom_records';
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ??
-  'https://eklipse.grupoclinicamedicos.com:8104';
+const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8104';
 
 type RegisterSymptomRecordPayload = {
   regionCorporalCode: BodyRegionCode;

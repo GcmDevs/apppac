@@ -23,9 +23,7 @@ export const EVENT_SOCKET_EVENTS = {
 } as const;
 
 const PATIENTS_FRONTEND_CLIENT = 'pacientes-frontend';
-const SOCKET_URL =
-  import.meta.env.VITE_SOCKET_URL?.replace(/\/$/, '') ??
-  'https://cloud.grupoclinicamedicos.com/socket';
+const SOCKET_URL = 'https://cloud.grupoclinicamedicos.com/socket';
 const EVENT_ACK_TIMEOUT_MS = 12_000;
 
 let eventSocket: Socket | null = null;

@@ -18,12 +18,8 @@ import type {
   ChatMessage,
 } from '@/types/chat';
 
-const SOCKET_URL =
-  import.meta.env.VITE_SOCKET_URL?.replace(/\/$/, '') ??
-  'https://cloud.grupoclinicamedicos.com/socket';
-const API_URL =
-  import.meta.env.VITE_SOCKET_API_URL?.replace(/\/$/, '') ??
-  'https://cloud.grupoclinicamedicos.com';
+const SOCKET_URL = 'https://cloud.grupoclinicamedicos.com/socket';
+const API_URL = 'https://cloud.grupoclinicamedicos.com';
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
 const MAX_ATTACHMENTS = 10;
 

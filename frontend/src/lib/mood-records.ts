@@ -3,9 +3,7 @@ import type { MoodRecord } from '@/types/mood';
 import type { InfluenceValue, MoodValue } from '@/types/mood';
 
 export const MOOD_RECORDS_STORAGE_KEY = 'eklipse_mood_records';
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ??
-  'https://eklipse.grupoclinicamedicos.com:8104';
+const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8104';
 
 type BackendMoodRecord = {
   id: number;

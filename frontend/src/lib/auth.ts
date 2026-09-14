@@ -80,7 +80,12 @@ export function getAuthSession(): AuthSession | null {
   }
 
   try {
-    return JSON.parse(storedSession) as AuthSession;
+    const session = JSON.parse(storedSession) as AuthSession;
+    if (session.user.role === 'admin') {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      return null;
+    }
+    return session;
   } catch {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     return null;
@@ -107,8 +112,24 @@ export function isPatientSession() {
   return getCurrentUserRole() === 'patient';
 }
 
-export function getDefaultRouteForRole(role: UserRole | null) {
-  return role === 'admin' ? '/admin/inicio' : '/inicio';
+export function getDefaultRouteForRole(_role: UserRole | null) {
+  return '/inicio';
+}
+
+export async function updatePassword(newPassword: string): Promise<void> {
+  const token = getAuthSession()?.token;
+  if (!token) throw new Error('Tu sesión terminó. Ingresa nuevamente.');
+
+  const response = await fetch(`${API_BASE_URL}/v1/sec/auth/update-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ newPassword }),
+  });
+
+  if (!response.ok) throw new Error(await getLoginErrorMessage(response));
 }
 
 export function getCurrentPatient(): Patient {
@@ -180,7 +201,14 @@ function createAuthUser(
     document: patientDocument,
     name: fullName,
     initials: getInitials(fullName),
-    avatarVariant: sexo === 'M' ? 'male' : sexo === 'F' ? 'female' : patient?.sex === 'Masculino' ? 'male' : 'female',
+    avatarVariant:
+      sexo === 'M'
+        ? 'male'
+        : sexo === 'F'
+          ? 'female'
+          : patient?.sex === 'Masculino'
+            ? 'male'
+            : 'female',
   };
 }
 

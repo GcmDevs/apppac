@@ -7,7 +7,7 @@ import { _PrivSecUserOrm } from '@common/infrastructure/orm/user.orm';
 @Injectable()
 export class UpdatePasswordImpl extends BaseSource {
   public async execute(newPassword: string): Promise<boolean> {
-    const qr = this.ekConn.createQueryRunner();
+    const qr = this.conn.createQueryRunner();
     let transactionStarted = false;
     try {
       await qr.connect();

@@ -14,13 +14,19 @@ import { getPageTitle } from './navigation';
 import { Sidebar } from './Sidebar';
 import { MobileBottomNav } from './MobileBottomNav';
 import { patientNavigationItems } from './navigation';
+import { ChatProvider, useChat } from '@/lib/chat';
 
 export function MainLayout() {
+  return <ChatProvider><PatientLayout /></ChatProvider>;
+}
+
+function PatientLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [invitations, setInvitations] = useState<NewEventInvitation[]>([]);
   const session = getAuthSession();
+  const chat = useChat();
   const isFocusRoute = location.pathname === '/sintomas' || location.pathname === '/estado-animo';
 
   useEffect(() => {
@@ -99,6 +105,12 @@ export function MainLayout() {
             initials={initials}
             onOpenMobileMenu={() => setMobileOpen(true)}
             onLogout={handleLogout}
+            chatUnreadCount={chat.unreadCount}
+            chatConversations={chat.conversations.filter(conversation => conversation.unreadCount > 0)}
+            onOpenChatConversation={conversationId => {
+              void chat.open(conversationId);
+              navigate('/chat');
+            }}
           />
         )}
 

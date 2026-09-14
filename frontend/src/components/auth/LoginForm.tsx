@@ -14,7 +14,6 @@ export function LoginForm() {
   const navigate = useNavigate();
   const [document, setDocument] = useState('');
   const [password, setPassword] = useState('');
-  const [authAsUser, setAuthAsUser] = useState(false);
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<FormErrors>(initialErrors);
@@ -49,12 +48,15 @@ export function LoginForm() {
       const session = await authenticateUser({
         document: document.trim(),
         password,
-        authAsUser,
+        authAsUser: false,
         keepSignedIn,
       });
 
       saveAuthSession(session);
-      navigate(getDefaultRouteForRole(session.user.role), { replace: true });
+      navigate(
+        session.passwordIsReset ? '/actualizar-contrasena' : getDefaultRouteForRole(session.user.role),
+        { replace: true }
+      );
     } catch (error) {
       setAuthError(
         error instanceof Error
@@ -137,20 +139,6 @@ export function LoginForm() {
             </p>
           ) : null}
         </div>
-
-        <label
-          className={authAsUser ? 'login-auth-mode login-auth-mode-active' : 'login-auth-mode'}
-        >
-          <input
-            type='checkbox'
-            checked={authAsUser}
-            onChange={event => setAuthAsUser(event.target.checked)}
-          />
-          <span>
-            <strong>Autenticarme como usuario</strong>
-            <small>Habilita las herramientas internas, incluida la creación de eventos.</small>
-          </span>
-        </label>
 
         <div className='login-form-row'>
           <label className='checkbox-row'>

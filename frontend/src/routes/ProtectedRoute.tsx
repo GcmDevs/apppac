@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { getDefaultRouteForRole, getCurrentUserRole, isAuthenticated } from '@/lib/auth'
+import { getAuthSession, getDefaultRouteForRole, getCurrentUserRole, isAuthenticated } from '@/lib/auth'
 import type { UserRole } from '@/types/auth'
 
 type ProtectedRouteProps = {
@@ -14,6 +14,15 @@ export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
   }
 
   const currentRole = getCurrentUserRole()
+  const session = getAuthSession()
+
+  if (session?.passwordIsReset && location.pathname !== '/actualizar-contrasena') {
+    return <Navigate to="/actualizar-contrasena" replace />
+  }
+
+  if (!session?.passwordIsReset && location.pathname === '/actualizar-contrasena') {
+    return <Navigate to={getDefaultRouteForRole(currentRole)} replace />
+  }
 
   if (allowedRoles && currentRole && !allowedRoles.includes(currentRole)) {
     return <Navigate to={getDefaultRouteForRole(currentRole)} replace />

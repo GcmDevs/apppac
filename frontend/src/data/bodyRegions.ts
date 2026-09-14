@@ -1,8 +1,4 @@
-import type {
-  BodyRegion,
-  BodyRegionCode,
-  BodyRegionId,
-} from '@/types/symptoms';
+import type { BodyRegion, BodyRegionCode, BodyRegionId } from '@/types/symptoms';
 
 export const BODY_REGION_CODES = {
   oral: 1,

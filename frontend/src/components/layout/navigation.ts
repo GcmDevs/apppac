@@ -6,6 +6,7 @@ import {
   History,
   House,
   LayoutDashboard,
+  MessageCircle,
   Smile,
   UserRound,
   Users,
@@ -48,6 +49,13 @@ export const patientNavigationItems: NavigationItem[] = [
     shortLabel: 'Invitaciones',
     title: 'Invitaciones',
     icon: CalendarDays,
+  },
+  {
+    to: '/chat',
+    label: 'Mensajes',
+    shortLabel: 'Chat',
+    title: 'Mensajes',
+    icon: MessageCircle,
   },
   {
     to: '/historial',

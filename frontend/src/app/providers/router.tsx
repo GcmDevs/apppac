@@ -11,6 +11,7 @@ import { MoodPage } from '@/pages/mood/MoodPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProfilePage } from '@/pages/profile/ProfilePage';
 import { SymptomsPage } from '@/pages/symptoms/SymptomsPage';
+import { ChatPage } from '@/pages/chat/ChatPage';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
 import { PublicOnlyRoute } from '@/routes/PublicOnlyRoute';
 import { RootRedirect } from '@/routes/RootRedirect';
@@ -58,6 +59,10 @@ export const appRouter = createBrowserRouter([
           {
             path: '/historial',
             element: <HistoryPage />,
+          },
+          {
+            path: '/chat',
+            element: <ChatPage />,
           },
           {
             path: '/preguntas-frecuentes',

@@ -46,6 +46,7 @@ export function ChatPage() {
       <label className="chat-search"><Search size={18} /><input type="search" value={query} onChange={event => changeSearch(event.target.value)} placeholder="Buscar contacto" /></label>
       {query.trim() && chat.searchResults.length ? <div className="chat-search-results">{chat.searchResults.map(contact => <button key={contact.document} type="button" onClick={async () => { setActionError((await chat.start(contact.document)) ?? ''); setQuery(''); }}><Avatar name={contact.name} online={contact.online} /><span><strong>{contact.name}</strong><small>Nueva conversación</small></span></button>)}</div> : null}
       {chat.error ? <div className="chat-inline-error"><WifiOff size={16} />{chat.error}</div> : null}
+      {!chat.currentUserActive ? <div className="chat-inactive-alert" role="alert"><WifiOff size={17} /><span><strong>Tu usuario de chat está inactivo.</strong> Puedes consultar el historial, pero no enviar mensajes. Comunícate con el administrador para activarlo nuevamente.</span></div> : null}
       <div className="chat-conversation-list">
         {list.map(conversation => <button key={conversation.id} type="button" className={chat.active?.id === conversation.id ? 'chat-conversation active' : 'chat-conversation'} onClick={() => void chat.open(conversation.id)}>
           <Avatar name={conversation.contact.name} online={conversation.contact.online} />
@@ -64,6 +65,7 @@ export function ChatPage() {
             <button className="chat-icon-button" type="button" title="Ocultar conversación" onClick={async () => { if (window.confirm('¿Ocultar esta conversación? Volverá cuando llegue un mensaje nuevo.')) setActionError((await chat.hide(chat.active!.id)) ?? ''); }}><EyeOff size={19} /></button>
           </header>
           <div className="chat-messages">
+            {!chat.active.contact.isActive ? <div className="chat-contact-inactive" role="alert"><WifiOff size={17} /><span>Ya no es posible comunicarse con esta persona. El historial permanece disponible.</span></div> : null}
             {chat.hasMore ? <button className="chat-load-previous" type="button" disabled={chat.loadingPrevious} onClick={() => void chat.loadPrevious()}>{chat.loadingPrevious ? 'Cargando…' : 'Cargar mensajes anteriores'}</button> : null}
             {chat.messages.map(message => <MessageBubble key={message.id} message={message} mine={message.sender.document === document} attachmentUrl={chat.attachmentUrl} onReply={() => { setReply(message); setEditing(null); }} onEdit={() => { setEditing(message); setReply(null); setDraft(message.content); }} onDelete={async () => { if (window.confirm('¿Eliminar este mensaje?')) setActionError((await chat.remove(message.id)) ?? ''); }} />)}
             <div ref={endRef} />
@@ -73,9 +75,9 @@ export function ChatPage() {
             {files.length ? <div className="chat-file-list">{files.map((file, index) => <span key={`${file.name}-${index}`}><FileText size={15} />{file.name}<button type="button" onClick={() => setFiles(current => current.filter((_, i) => i !== index))}><X size={14} /></button></span>)}</div> : null}
             {actionError ? <p className="chat-action-error">{actionError}</p> : null}
             <div className="chat-compose-row">
-              {!editing ? <label className="chat-icon-button" title="Adjuntar archivos"><Paperclip size={20} /><input hidden multiple type="file" onChange={event => setFiles(current => [...current, ...Array.from(event.target.files ?? [])].slice(0, 10))} /></label> : null}
-              <textarea value={draft} onChange={event => { setDraft(event.target.value); chat.reportTyping(Boolean(event.target.value)); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); void submit(); } }} maxLength={10000} rows={1} placeholder="Escribe un mensaje" aria-label="Mensaje" />
-              <button className="chat-send" type="button" disabled={busy || (!draft.trim() && !files.length)} onClick={() => void submit()}>{busy ? <LoaderCircle className="spin" size={20} /> : <Send size={20} />}</button>
+              {!editing ? <label className="chat-icon-button" aria-disabled={!chat.currentUserActive || !chat.active.contact.isActive} title="Adjuntar archivos"><Paperclip size={20} /><input hidden multiple disabled={!chat.currentUserActive || !chat.active.contact.isActive} type="file" onChange={event => setFiles(current => [...current, ...Array.from(event.target.files ?? [])].slice(0, 10))} /></label> : null}
+              <textarea value={draft} disabled={!editing && (!chat.currentUserActive || !chat.active.contact.isActive)} onChange={event => { setDraft(event.target.value); chat.reportTyping(Boolean(event.target.value)); }} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); void submit(); } }} maxLength={10000} rows={1} placeholder={!chat.currentUserActive || !chat.active.contact.isActive ? 'Envío de mensajes deshabilitado' : 'Escribe un mensaje'} aria-label="Mensaje" />
+              <button className="chat-send" type="button" disabled={busy || (!editing && (!chat.currentUserActive || !chat.active.contact.isActive)) || (!draft.trim() && !files.length)} onClick={() => void submit()}>{busy ? <LoaderCircle className="spin" size={20} /> : <Send size={20} />}</button>
             </div>
           </footer>
         </> : <div className="chat-welcome"><span><MessageCircle size={34} /></span><h2>Tu espacio de conversación</h2><p>Selecciona un contacto para conversar de forma privada con tu equipo de acompañamiento.</p></div>}

@@ -1,6 +1,6 @@
 export type ChatConnectionState = 'connecting' | 'connected' | 'disconnected';
 
-export type ChatUser = { document: string; name: string };
+export type ChatUser = { document: string; name: string; isActive: boolean };
 export type ChatContact = ChatUser & { online: boolean };
 export type ChatMessageReply = {
   id: number; content: string; attachments: string[]; deletedAt: string | null; sender: ChatUser;

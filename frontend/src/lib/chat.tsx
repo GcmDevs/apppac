@@ -12,6 +12,7 @@ type ChatContextValue = {
   connection: ChatConnectionState; error: string; conversations: ChatConversation[];
   active: ChatConversation | null; messages: ChatMessage[]; searchResults: ChatContact[];
   unreadCount: number; typing: boolean; hasMore: boolean; loadingPrevious: boolean;
+  currentUserActive: boolean;
   search(query: string): Promise<string | null>; start(document: string): Promise<string | null>;
   open(id: number): Promise<string | null>; close(): void; markRead(id?: number): Promise<void>;
   hide(id: number): Promise<string | null>; loadPrevious(): Promise<void>;
@@ -37,6 +38,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const [typingIds, setTypingIds] = useState<Set<number>>(new Set());
   const [hasMore, setHasMore] = useState(false);
   const [loadingPrevious, setLoadingPrevious] = useState(false);
+  const [currentUserActive, setCurrentUserActive] = useState(true);
 
   useEffect(() => { activeRef.current = active; }, [active]);
   useEffect(() => { messagesRef.current = messages; }, [messages]);
@@ -55,10 +57,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     socket.on('connect', () => { setConnection('connected'); setError(''); });
     socket.on('connect_error', (reason) => { setConnection('disconnected'); setError(reason.message || 'No fue posible conectar el chat.'); });
     socket.on('disconnect', () => { setConnection('disconnected'); setError('Se perdió la conexión. Intentaremos reconectar.'); });
-    socket.on('chat:bootstrap', (data: { conversations: ChatConversation[]; notifications: { unreadCount: number }; security: { locked: boolean } }) => {
+    socket.on('chat:bootstrap', (data: { conversations: ChatConversation[]; notifications: { unreadCount: number }; security: { locked: boolean }; currentUserActive: boolean }) => {
       if (data.security?.locked) { setError('El chat tiene un PIN configurado. Solicita que lo desactiven desde Eklipse.'); return; }
       setConversations([...data.conversations].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
       setNotificationCount(data.notifications?.unreadCount ?? 0);
+      setCurrentUserActive(data.currentUserActive !== false);
     });
     socket.on('chat:conversation:updated', (conversation: ChatConversation) => upsert(conversation));
     socket.on('chat:conversation:hidden', ({ conversationId }: { conversationId: number }) => {
@@ -116,7 +119,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const reportTyping = useCallback((value: boolean) => { const socket = socketRef.current, conversationId = activeRef.current?.id; if (!socket?.connected || !conversationId) return; socket.emit('chat:typing', { conversationId, typing: value }); if (typingTimer.current) window.clearTimeout(typingTimer.current); if (value) typingTimer.current = window.setTimeout(() => socket.emit('chat:typing', { conversationId, typing: false }), 1800); }, []);
   const attachmentUrl = useCallback((path: string) => `${API_URL}/${path.replace(/^\/+/, '')}`, []);
   const unreadCount = Math.max(notificationCount, conversations.reduce((total, item) => total + item.unreadCount, 0));
-  const value = useMemo(() => ({ connection, error, conversations, active, messages, searchResults, unreadCount, typing: !!active && typingIds.has(active.id), hasMore, loadingPrevious, search, start, open, close, markRead, hide, loadPrevious, send, edit, remove, reportTyping, attachmentUrl }), [connection, error, conversations, active, messages, searchResults, unreadCount, typingIds, hasMore, loadingPrevious, search, start, open, close, markRead, hide, loadPrevious, send, edit, remove, reportTyping, attachmentUrl]);
+  const value = useMemo(() => ({ connection, error, conversations, active, messages, searchResults, unreadCount, typing: !!active && typingIds.has(active.id), hasMore, loadingPrevious, currentUserActive, search, start, open, close, markRead, hide, loadPrevious, send, edit, remove, reportTyping, attachmentUrl }), [connection, error, conversations, active, messages, searchResults, unreadCount, typingIds, hasMore, loadingPrevious, currentUserActive, search, start, open, close, markRead, hide, loadPrevious, send, edit, remove, reportTyping, attachmentUrl]);
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }
 

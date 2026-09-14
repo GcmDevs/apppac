@@ -31,16 +31,21 @@ export const autocomplete = (consecutivo: string, length = 14) => {
 export const idWithContext = (id: number, context: GcmContextType, centroId: number) => {
   switch (context) {
     case GCM_CONTEXTS.ALTACENTRO: {
-        if (centroId === 1) return `CM${id}`;
-        else if (centroId === 2) return `AC${id}`;
-        else if (centroId === 3) return `CPS${id}`;
-        else return `DEV${id}`;
+      if (centroId === 1) return `CM${id}`;
+      else if (centroId === 2) return `AC${id}`;
+      else if (centroId === 3) return `CPS${id}`;
+      else return `DEV${id}`;
     }
-    case GCM_CONTEXTS.AGUACHICA: return `AGU${id}`;
-    case GCM_CONTEXTS.AMMEDICAL: return `AM${id}`;
-    case GCM_CONTEXTS.SANJUAN: return `SJ${id}`;
-    case GCM_CONTEXTS.VALLEDUPAR: return `VDP${id}`;
-    default: return `DEV${id}`;
+    case GCM_CONTEXTS.AGUACHICA:
+      return `AGU${id}`;
+    case GCM_CONTEXTS.AMMEDICAL:
+      return `AM${id}`;
+    case GCM_CONTEXTS.SANJUAN:
+      return `SJ${id}`;
+    case GCM_CONTEXTS.VALLEDUPAR:
+      return `VDP${id}`;
+    default:
+      return `DEV${id}`;
   }
 };
 

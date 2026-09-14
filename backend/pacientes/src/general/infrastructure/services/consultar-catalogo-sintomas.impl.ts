@@ -6,10 +6,7 @@ import {
   RegionCorporalSintomaType,
   accesosRapidosSintomaById,
 } from '@gen/general/domain/types';
-import {
-  IntensidadSintomaOrm,
-  SintomaOrm,
-} from '@gen/general/infrastructure/orm';
+import { IntensidadSintomaOrm, SintomaOrm } from '@gen/general/infrastructure/orm';
 
 export type IntensidadSintomaCatalogo = Pick<IntensidadSintomaOrm, 'id' | 'descripcion'>;
 

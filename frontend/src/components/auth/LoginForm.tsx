@@ -53,7 +53,10 @@ export function LoginForm() {
       });
 
       saveAuthSession(session);
-      navigate(getDefaultRouteForRole(session.user.role), { replace: true });
+      navigate(
+        session.passwordIsReset ? '/actualizar-contrasena' : getDefaultRouteForRole(session.user.role),
+        { replace: true }
+      );
     } catch (error) {
       setAuthError(
         error instanceof Error

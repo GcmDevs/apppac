@@ -12,6 +12,7 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProfilePage } from '@/pages/profile/ProfilePage';
 import { SymptomsPage } from '@/pages/symptoms/SymptomsPage';
 import { ChatPage } from '@/pages/chat/ChatPage';
+import { UpdatePasswordPage } from '@/pages/auth/UpdatePasswordPage';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
 import { PublicOnlyRoute } from '@/routes/PublicOnlyRoute';
 import { RootRedirect } from '@/routes/RootRedirect';
@@ -33,6 +34,10 @@ export const appRouter = createBrowserRouter([
   {
     element: <ProtectedRoute allowedRoles={['patient']} />,
     children: [
+      {
+        path: '/actualizar-contrasena',
+        element: <UpdatePasswordPage />,
+      },
       {
         element: <MainLayout />,
         children: [

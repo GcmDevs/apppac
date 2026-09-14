@@ -115,6 +115,22 @@ export function getDefaultRouteForRole(_role: UserRole | null) {
   return '/inicio';
 }
 
+export async function updatePassword(newPassword: string): Promise<void> {
+  const token = getAuthSession()?.token;
+  if (!token) throw new Error('Tu sesión terminó. Ingresa nuevamente.');
+
+  const response = await fetch(`${API_BASE_URL}/v1/sec/auth/update-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ newPassword }),
+  });
+
+  if (!response.ok) throw new Error(await getLoginErrorMessage(response));
+}
+
 export function getCurrentPatient(): Patient {
   const session = getAuthSession();
 

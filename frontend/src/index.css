@@ -4593,6 +4593,20 @@ svg {
 .spin { animation: chat-spin .8s linear infinite; }
 @keyframes chat-spin { to { transform: rotate(360deg); } }
 
+.password-reset-layout { display: grid; min-height: 100dvh; place-items: center; padding: 24px; background: radial-gradient(circle at 15% 15%, #dff5f1 0, transparent 34%), linear-gradient(145deg, #f6fbfb, #e9f3f5); }
+.password-reset-card { width: min(100%, 480px); padding: clamp(24px, 5vw, 38px); border: 1px solid rgba(210, 228, 231, .9); border-radius: 26px; background: rgba(255,255,255,.97); box-shadow: 0 24px 70px rgba(18, 55, 70, .12); }
+.password-reset-icon { display: grid; width: 58px; height: 58px; margin-bottom: 20px; place-items: center; border-radius: 18px; background: var(--secondary-soft); color: var(--primary-strong); }
+.password-reset-card h1 { margin: 5px 0 10px; color: var(--foreground); font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.12; }
+.password-reset-intro { margin: 0 0 25px; color: var(--muted-foreground); line-height: 1.55; }
+.password-reset-form { display: grid; gap: 18px; }
+.password-reset-form .input-frame { display: flex; align-items: center; gap: 9px; padding: 0 7px 0 14px; }
+.password-reset-form .input-frame input { min-width: 0; flex: 1; border: 0; outline: 0; }
+.password-requirements { display: grid; gap: 7px; margin: -3px 0 0; padding: 0; list-style: none; color: var(--muted-foreground); font-size: .78rem; }
+.password-requirements li { display: flex; align-items: center; gap: 7px; }
+.password-requirements li svg { padding: 2px; border-radius: 50%; background: #e8eef0; color: #8a9aa0; }
+.password-requirements li.valid { color: #147557; }
+.password-requirements li.valid svg { background: #d9f3e9; color: #147557; }
+
 @media (max-width: 720px) {
   .chat-page { display: block; height: calc(100dvh - 154px); min-height: 440px; border-radius: 18px; }
   .chat-inbox, .chat-thread { width: 100%; height: 100%; border: 0; }

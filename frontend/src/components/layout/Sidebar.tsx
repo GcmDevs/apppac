@@ -27,6 +27,29 @@ export function Sidebar({
   onCloseMobile,
   onLogout,
 }: SidebarProps) {
+  const navigationGroups =
+    roleLabel === 'Paciente'
+      ? [
+          {
+            label: 'Seguimiento',
+            paths: ['/inicio', '/estado-animo', '/sintomas', '/historial'],
+          },
+          {
+            label: 'Conexión',
+            paths: ['/invitaciones', '/chat'],
+          },
+          {
+            label: 'Cuenta',
+            paths: ['/preguntas-frecuentes', '/perfil'],
+          },
+        ]
+      : [
+          {
+            label: 'Navegación',
+            paths: navigationItems.map(item => item.to),
+          },
+        ];
+
   return (
     <>
       <div
@@ -50,59 +73,84 @@ export function Sidebar({
           </div>
         </div>
 
-        <nav className="sidebar-nav">
-          <ul>
-            {navigationItems.map((item) => {
-              const Icon = item.icon
+        <nav className="sidebar-nav" aria-label="Secciones de navegación">
+          {navigationGroups.map(group => {
+            const groupItems = navigationItems.filter(item => group.paths.includes(item.to));
 
-              return (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end
-                    title={item.label}
-                    className={({ isActive }) =>
-                      isActive
-                        ? 'sidebar-link sidebar-link-active'
-                        : 'sidebar-link'
-                    }
-                    onClick={onCloseMobile}
-                  >
-                    <Icon size={20} aria-hidden="true" />
-                    <span className="sidebar-link-text">{item.label}</span>
-                    {badgeCount > 0 && item.to.includes('/invitaciones') ? (
-                      <span className="sidebar-link-badge" aria-hidden="true">
-                        {badgeCount}
-                      </span>
-                    ) : null}
-                  </NavLink>
-                </li>
-              )
-            })}
-          </ul>
+            if (!groupItems.length) {
+              return null;
+            }
+
+            return (
+              <section className="sidebar-nav-group" key={group.label} aria-label={group.label}>
+                <p className="sidebar-nav-label">{group.label}</p>
+                <ul>
+                  {groupItems.map(item => {
+                    const Icon = item.icon;
+                    const hasInvitationBadge = badgeCount > 0 && item.to.includes('/invitaciones');
+
+                    return (
+                      <li key={item.to}>
+                        <NavLink
+                          to={item.to}
+                          end
+                          title={item.label}
+                          aria-label={
+                            hasInvitationBadge ? `${item.label}, ${badgeCount} activas` : item.label
+                          }
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'sidebar-link sidebar-link-active'
+                              : 'sidebar-link'
+                          }
+                          onClick={onCloseMobile}
+                        >
+                          <Icon size={19} aria-hidden="true" />
+                          <span className="sidebar-link-text">{item.label}</span>
+                          {hasInvitationBadge ? (
+                            <span className="sidebar-link-badge" aria-hidden="true">
+                              {badgeCount}
+                            </span>
+                          ) : null}
+                        </NavLink>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            );
+          })}
         </nav>
 
         <div className="sidebar-footer">
-          <button type="button" className="sidebar-help-card">
+          <NavLink
+            to="/preguntas-frecuentes"
+            className="sidebar-help-card"
+            onClick={onCloseMobile}
+          >
             <span className="sidebar-help-icon" aria-hidden="true">
               <Headset size={18} />
             </span>
             <span className="sidebar-help-copy">
-              <strong>Necesitas ayuda?</strong>
-              <small>{roleLabel === 'Administrador' ? 'Administra y acompana con claridad' : 'Estamos aqui para ti'}</small>
+              <strong>¿Necesitas ayuda?</strong>
+              <small>
+                {roleLabel === 'Administrador'
+                  ? 'Administra y acompaña con claridad'
+                  : 'Estamos aquí para ti'}
+              </small>
             </span>
-          </button>
+          </NavLink>
 
           <button
             type="button"
             className="sidebar-link sidebar-link-button"
-            title="Cerrar sesion"
+            title="Cerrar sesión"
             onClick={onLogout}
           >
             <span className="sidebar-link-icon-wrap">
               <LogOut size={18} aria-hidden="true" className="logout-icon" />
             </span>
-            <span className="sidebar-link-text">Cerrar sesion</span>
+            <span className="sidebar-link-text">Cerrar sesión</span>
           </button>
         </div>
       </aside>

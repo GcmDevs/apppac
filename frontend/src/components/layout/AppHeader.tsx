@@ -49,6 +49,7 @@ export function AppHeader({
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenuOpen(false)
+        setNotificationsOpen(false)
       }
     }
 
@@ -73,25 +74,30 @@ export function AppHeader({
           <Menu size={20} />
         </button>
         <div className="topbar-titles">
-          <p className="eyebrow">{appLabel}</p>
+          <p className="topbar-app-label">{appLabel}</p>
           <h1>{pageTitle}</h1>
         </div>
       </div>
 
       <div className="topbar-actions" ref={menuRef}>
-        <p className="topbar-greeting">Hola, {userName}</p>
+        <span className="topbar-role-chip">
+          <span aria-hidden="true" />
+          {roleLabel}
+        </span>
         <div className="user-menu">
           <button
             type="button"
             className="icon-button notifications-button"
             aria-label={`Notificaciones${chatUnreadCount ? `, ${chatUnreadCount} sin leer` : ''}`}
+            aria-controls="notifications-panel"
+            aria-haspopup="dialog"
             aria-expanded={notificationsOpen}
             onClick={() => { setNotificationsOpen(current => !current); setMenuOpen(false) }}
           >
             {chatUnreadCount > 0 ? <span className="notifications-count">{chatUnreadCount > 99 ? '99+' : chatUnreadCount}</span> : null}
             <Bell size={18} />
           </button>
-          {notificationsOpen ? <div className="notification-popover">
+          {notificationsOpen ? <div className="notification-popover" id="notifications-panel" role="dialog" aria-label="Mensajes nuevos">
             <header><strong>Mensajes</strong><Link to="/chat" onClick={() => setNotificationsOpen(false)}>Abrir chat</Link></header>
             {chatConversations.slice(0, 5).map(conversation => <button key={conversation.id} type="button" onClick={() => { setNotificationsOpen(false); onOpenChatConversation?.(conversation.id) }}>
               <span className="notification-avatar">{conversation.contact.name.slice(0, 1).toUpperCase()}</span>
@@ -107,6 +113,7 @@ export function AppHeader({
             type="button"
             className="user-menu-trigger"
             aria-haspopup="menu"
+            aria-label={`Abrir menú de ${userName}`}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((current) => !current)}
           >
@@ -137,7 +144,7 @@ export function AppHeader({
                 role="menuitem"
                 onClick={onLogout}
               >
-                Cerrar sesion
+                Cerrar sesión
               </button>
             </div>
           ) : null}

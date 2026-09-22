@@ -31,16 +31,16 @@ export const patientNavigationItems: NavigationItem[] = [
   },
   {
     to: '/estado-animo',
-    label: 'Como me siento hoy',
-    shortLabel: 'Animo',
-    title: 'Como me siento hoy',
+    label: 'Cómo me siento hoy',
+    shortLabel: 'Ánimo',
+    title: 'Cómo me siento hoy',
     icon: Smile,
   },
   {
     to: '/sintomas',
-    label: 'Reportar sintomas',
-    shortLabel: 'Sintomas',
-    title: 'Reportar sintomas',
+    label: 'Reportar síntomas',
+    shortLabel: 'Síntomas',
+    title: 'Reportar síntomas',
     icon: Activity,
   },
   {

@@ -97,9 +97,9 @@ export function SymptomBottomSheet({
           <span />
         </div>
         <div className="bottom-sheet-header">
-          <p className="eyebrow">Seleccion guiada</p>
+          <p className="eyebrow">Selección guiada</p>
           <h2 id="symptom-sheet-title">{title}</h2>
-          <p>Elija el sintoma que esta experimentando.</p>
+          <p>Elige una opción para continuar con la intensidad.</p>
         </div>
         <div className="sheet-symptom-grid">
           {symptoms.map((symptom) => (
@@ -117,8 +117,8 @@ export function SymptomBottomSheet({
           ))}
           {symptoms.length === 0 ? (
             <div className="empty-search-state" role="status">
-              <strong>No hay sintomas configurados para esta seleccion.</strong>
-              <p>Selecciona otra opcion o intenta mas tarde.</p>
+              <strong>No hay síntomas configurados para esta selección.</strong>
+              <p>Selecciona otra opción o intenta más tarde.</p>
             </div>
           ) : null}
         </div>

@@ -22,10 +22,11 @@ export function SeveritySelector({
         Volver
       </button>
       <div className="section-heading">
+        <p className="symptom-step-label">Paso 2 · Intensidad</p>
         <h2>{symptomName}</h2>
-        <p>Que tan intenso es?</p>
+        <p>¿Qué tan intenso es?</p>
       </div>
-      <div className="severity-options-list" role="radiogroup" aria-label="Intensidad del sintoma">
+      <div className="severity-options-list" role="radiogroup" aria-label="Intensidad del síntoma">
         {options.map((option) => {
           const selected = selectedId === option.id
 
@@ -51,8 +52,8 @@ export function SeveritySelector({
         })}
         {options.length === 0 ? (
           <div className="empty-search-state" role="status">
-            <strong>No hay intensidades configuradas para este sintoma.</strong>
-            <p>Vuelve a la lista y selecciona otro sintoma.</p>
+            <strong>No hay intensidades configuradas para este síntoma.</strong>
+            <p>Vuelve a la lista y selecciona otro síntoma.</p>
           </div>
         ) : null}
       </div>

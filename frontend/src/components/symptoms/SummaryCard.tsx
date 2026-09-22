@@ -1,4 +1,4 @@
-import { CheckCircle2, LoaderCircle } from 'lucide-react'
+import { Activity, Gauge, LoaderCircle } from 'lucide-react'
 
 type SummaryCardProps = {
   symptomName: string
@@ -28,14 +28,25 @@ export function SummaryCard({
         Volver
       </button>
       <div className="section-heading">
+        <p className="symptom-step-label">Paso 3 · Confirmación</p>
         <h2>Vas a registrar</h2>
         <p>Revisa este resumen antes de continuar con {symptomName}.</p>
       </div>
 
       <div className="summary-check-list">
         <div>
-          <CheckCircle2 size={18} aria-hidden="true" />
-          <span>{severityLabel}</span>
+          <Activity size={18} aria-hidden="true" />
+          <span>
+            <small>Síntoma</small>
+            {symptomName}
+          </span>
+        </div>
+        <div>
+          <Gauge size={18} aria-hidden="true" />
+          <span>
+            <small>Intensidad</small>
+            {severityLabel}
+          </span>
         </div>
       </div>
 

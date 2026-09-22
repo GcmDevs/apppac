@@ -139,15 +139,27 @@ export function SymptomsPage() {
           </div>
 
           <div className="symptom-selection-header">
+            <div className="symptom-flow-progress" aria-label="Paso 1 de 3: ubicar la molestia">
+              <div>
+                <span>Registro de síntomas</span>
+                <strong>Paso 1 de 3</strong>
+              </div>
+              <span className="symptom-flow-progress-track" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+            </div>
             <div className="section-heading symptom-selection-heading">
-              <h2>Como te sientes hoy?</h2>
-              <p>Selecciona el area donde tienes molestias o sintomas.</p>
+              <p className="symptom-step-label">Ubica la molestia</p>
+              <h2>¿Dónde sientes la molestia?</h2>
+              <p>Elige una zona del cuerpo o usa un acceso rápido para encontrar el síntoma.</p>
             </div>
           </div>
 
           {isCatalogLoading ? (
             <CatalogStatus
-              title="Cargando sintomas"
+              title="Cargando síntomas"
               description="Estamos consultando las opciones disponibles."
               loading
             />
@@ -155,7 +167,7 @@ export function SymptomsPage() {
 
           {catalogError ? (
             <CatalogStatus
-              title="No pudimos cargar los sintomas"
+              title="No pudimos cargar los síntomas"
               description={catalogError}
               onRetry={() => void retryCatalog()}
             />
@@ -163,8 +175,8 @@ export function SymptomsPage() {
 
           {catalogIsEmpty ? (
             <CatalogStatus
-              title="No hay sintomas configurados"
-              description="Intenta nuevamente o comunicate con el equipo de atencion."
+              title="No hay síntomas configurados"
+              description="Intenta nuevamente o comunícate con el equipo de atención."
               onRetry={() => void retryCatalog()}
             />
           ) : null}
@@ -184,7 +196,14 @@ export function SymptomsPage() {
           </section>
 
           <section className="symptom-group-card symptom-group-card-flat">
-            <div className="quick-access-grid" aria-label="Accesos rapidos de sintomas">
+            <div className="symptom-quick-access-heading">
+              <div>
+                <p className="symptom-step-label">Accesos rápidos</p>
+                <h3>Empieza por lo que sientes</h3>
+              </div>
+              <span>También puedes elegir una categoría.</span>
+            </div>
+            <div className="quick-access-grid" aria-label="Accesos rápidos de síntomas">
               {quickAccesses.map(item => (
                 <QuickAccessCard
                   key={item.code}
@@ -218,7 +237,8 @@ export function SymptomsPage() {
                 <Search size={18} />
               </span>
               <div>
-                <strong>Mi sintoma no aparece en la lista anterior</strong>
+                <strong>Buscar otro síntoma</strong>
+                <span>Escribe una palabra para encontrarlo.</span>
               </div>
             </button>
           </section>
@@ -237,7 +257,7 @@ export function SymptomsPage() {
 
       <SymptomBottomSheet
         open={sheetRegionId !== null || sheetQuickAccessCode !== null}
-        title="Elija el sintoma que esta experimentando"
+        title="Elige el síntoma que estás experimentando"
         symptoms={sheetRegionId ? regionSymptoms : quickAccessSymptoms}
         onClose={() => {
           setSheetRegionId(null)
@@ -264,7 +284,7 @@ export function SymptomsPage() {
             className="bottom-sheet symptom-flow-sheet"
             role="dialog"
             aria-modal="true"
-            aria-label="Registro de sintomas"
+            aria-label="Registro de síntomas"
           >
             <div className="sheet-drag-handle" aria-hidden="true">
               <span />
@@ -404,13 +424,13 @@ export function SymptomsPage() {
 function getCatalogErrorMessage(error: unknown) {
   return error instanceof Error
     ? error.message
-    : 'No pudimos cargar el catalogo de sintomas.'
+    : 'No pudimos cargar el catálogo de síntomas.'
 }
 
 function getRegisterErrorMessage(error: unknown) {
   return error instanceof Error
     ? error.message
-    : 'No pudimos guardar el sintoma. Intentalo nuevamente.'
+    : 'No pudimos guardar el síntoma. Inténtalo nuevamente.'
 }
 
 type CatalogStatusProps = {

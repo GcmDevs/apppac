@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowLeft,
+  BellRing,
   CalendarDays,
   ChevronRight,
-  Filter,
   HeartHandshake,
+  MapPin,
   Sparkles,
   Users,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
-  getEventAttendanceStatusLabel,
   getEventInvitationAccent,
   getEventInvitationDateLabel,
   getEventInvitationTimeLabel,
@@ -87,6 +87,9 @@ export function InvitationsPage() {
           invitation => getEventInvitationTimingStatus(invitation) === activeTab
         );
   }, [activeTab, invitations]);
+  const upcomingCount = invitations.filter(
+    invitation => getEventInvitationTimingStatus(invitation) === 'upcoming'
+  ).length;
 
   return (
     <main className='page-shell invitation-page'>
@@ -96,14 +99,24 @@ export function InvitationsPage() {
             <ArrowLeft size={18} />
           </Link>
           <h1>Invitaciones</h1>
-          <button
-            type='button'
-            className='icon-button invitation-filter-button'
-            aria-label='Filtrar invitaciones'
-          >
-            <Filter size={18} />
-          </button>
+          <span className='invitation-topbar-mark' aria-hidden='true'>
+            <BellRing size={18} />
+          </span>
         </header>
+
+        <section className='invitation-intro' aria-labelledby='invitation-intro-title'>
+          <div className='invitation-intro-icon' aria-hidden='true'>
+            <CalendarDays size={22} />
+          </div>
+          <div>
+            <p className='eyebrow'>Eventos y actividades</p>
+            <h2 id='invitation-intro-title'>Encuentros pensados para ti</h2>
+            <p>Revisa los detalles y confirma si puedes asistir.</p>
+          </div>
+          <span className='invitation-upcoming-count'>
+            {upcomingCount} {upcomingCount === 1 ? 'próxima' : 'próximas'}
+          </span>
+        </section>
 
         <nav className='invitation-tabs' aria-label='Filtros de invitaciones'>
           {tabs.map(tab => {
@@ -122,15 +135,15 @@ export function InvitationsPage() {
           })}
         </nav>
 
-        <section className='invitation-list'>
+        <section className='invitation-list' aria-live='polite'>
           {isLoading ? (
-            <article className='admin-empty-state'>
+            <article className='admin-empty-state invitation-state-card'>
               <strong>Consultando tus invitaciones...</strong>
             </article>
           ) : null}
 
           {!isLoading && error ? (
-            <article className='admin-empty-state'>
+            <article className='admin-empty-state invitation-state-card' role='alert'>
               <strong>No pudimos cargar tus invitaciones.</strong>
               <span>{error}</span>
             </article>
@@ -155,8 +168,13 @@ export function InvitationsPage() {
 
                     <div className='invitation-list-copy'>
                       <strong>{invitation.title}</strong>
-                      <span>
-                        {`${getEventInvitationDateLabel(invitation)} - ${getEventInvitationTimeLabel(invitation)} · ${getEventAttendanceStatusLabel(invitation.status)}`}
+                      <span className='invitation-list-time'>
+                        <CalendarDays size={14} aria-hidden='true' />
+                        {`${getEventInvitationDateLabel(invitation)} · ${getEventInvitationTimeLabel(invitation)}`}
+                      </span>
+                      <span className='invitation-list-location'>
+                        <MapPin size={14} aria-hidden='true' />
+                        {invitation.location}
                       </span>
                     </div>
 
@@ -178,7 +196,7 @@ export function InvitationsPage() {
             : null}
 
           {!isLoading && !error && visibleInvitations.length === 0 ? (
-            <article className='admin-empty-state'>
+            <article className='admin-empty-state invitation-state-card'>
               <strong>
                 No tienes invitaciones{' '}
                 {activeTab === 'all'

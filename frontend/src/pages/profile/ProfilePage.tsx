@@ -52,7 +52,7 @@ export function ProfilePage() {
 
   const personalData = [
     ['Tipo de documento', profile.tipoDocumento ?? NOT_AVAILABLE, IdCard],
-    ['Numero de documento', profile.identificacion, IdCard],
+    ['Número de documento', profile.identificacion, IdCard],
     ['Nombre completo', profile.nombrePaciente, UserRound],
     ['Edad', `${profile.edad} ${profile.unidadEdad.toLowerCase()}`, CalendarDays],
   ] as const;
@@ -70,18 +70,24 @@ export function ProfilePage() {
     <main className="page-shell profile-page-redesign">
       <section className="profile-hero profile-hero-redesign">
         <div className="profile-hero-main profile-hero-main-redesign">
-          <div className="profile-avatar profile-avatar-redesign">{getInitials(profile.nombrePaciente)}</div>
+          <div className="profile-avatar-wrap">
+            <div className="profile-avatar profile-avatar-redesign">{getInitials(profile.nombrePaciente)}</div>
+            <span className="profile-avatar-status" aria-label="Perfil protegido">
+              <ShieldCheck size={14} />
+            </span>
+          </div>
           <div className="profile-hero-copy-redesign">
-            <p className="eyebrow">Perfil del paciente</p>
+            <p className="eyebrow">Mi cuenta</p>
             <h2>{profile.nombrePaciente}</h2>
             <div className="profile-meta profile-meta-pills">
               <span>Paciente</span>
               <span>{profile.sede ?? 'Sede no registrada'}</span>
             </div>
+            <p className="profile-hero-description">Esta es la información registrada por tu institución.</p>
           </div>
         </div>
 
-        <div className="profile-hero-highlights">
+        <div className="profile-hero-highlights" aria-label="Resumen del perfil">
           <ProfileHighlight icon={CalendarDays} label="Fecha de nacimiento" value={formatDate(profile.fechaNacimiento)} />
           <ProfileHighlight icon={UserRound} label="Sexo" value={profile.sexo === 'M' ? 'Masculino' : profile.sexo === 'F' ? 'Femenino' : NOT_AVAILABLE} />
           <ProfileHighlight icon={CalendarDays} label="Edad" value={`${profile.edad} ${profile.unidadEdad.toLowerCase()}`} />
@@ -89,15 +95,31 @@ export function ProfilePage() {
       </section>
 
       <div className="profile-grid profile-grid-redesign">
-        <ProfileSection icon={UserRound} title="Datos personales" items={personalData} />
-        <ProfileSection icon={MapPinned} title="Lugar de residencia" items={residenceData} />
-        <ProfileSection icon={Building2} title="Datos de atención" items={careData} />
+        <ProfileSection
+          icon={UserRound}
+          title="Datos personales"
+          description="Documento, nombre y datos básicos registrados."
+          items={personalData}
+        />
+        <ProfileSection
+          icon={MapPinned}
+          title="Lugar de residencia"
+          description="Ubicación asociada actualmente a tu perfil."
+          items={residenceData}
+        />
+        <ProfileSection
+          icon={Building2}
+          title="Datos de atención"
+          description="Información de tu proceso dentro de la institución."
+          items={careData}
+        />
 
         <section className="profile-note profile-note-redesign">
           <div className="profile-note-illustration" aria-hidden="true">
             <div className="card-icon emergency-icon"><CircleAlert size={20} /></div>
           </div>
           <div>
+            <p className="profile-note-label">Actualización de datos</p>
             <h3>Información importante</h3>
             <p>Para actualizar tus datos personales o de contacto, comunícate directamente con tu institución.</p>
             <div className="profile-note-callout">
@@ -141,15 +163,16 @@ function ProfileHighlight({ icon: Icon, label, value }: { icon: LucideIcon; labe
 type ProfileSectionProps = {
   icon: LucideIcon;
   title: string;
+  description: string;
   items: readonly (readonly [string, string, LucideIcon])[];
 };
 
-function ProfileSection({ icon: Icon, title, items }: ProfileSectionProps) {
+function ProfileSection({ icon: Icon, title, description, items }: ProfileSectionProps) {
   return (
     <section className="profile-section profile-section-redesign">
       <header className="profile-section-header">
         <div className="card-icon"><Icon size={18} aria-hidden="true" /></div>
-        <div><h3>{title}</h3><p>Consulta tu información registrada actualmente.</p></div>
+        <div><h3>{title}</h3><p>{description}</p></div>
       </header>
       <dl className="profile-data-list">
         {items.map(([label, value, ItemIcon]) => (

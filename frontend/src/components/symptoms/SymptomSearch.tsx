@@ -22,7 +22,8 @@ export function SymptomSearch({
         Volver
       </button>
       <div className="section-heading">
-        <h2>Que estas experimentando?</h2>
+        <p className="symptom-step-label">Busca un síntoma</p>
+        <h2>¿Qué estás experimentando?</h2>
         <p>Escribe una palabra sencilla y te mostraremos opciones relacionadas.</p>
       </div>
 
@@ -31,7 +32,7 @@ export function SymptomSearch({
         <input
           id="symptomSearch"
           type="search"
-          placeholder="Buscar sintomas"
+          placeholder="Buscar síntomas"
           value={query}
           onChange={(event) => onChangeQuery(event.target.value)}
         />
@@ -51,8 +52,8 @@ export function SymptomSearch({
         ))}
         {results.length === 0 ? (
           <div className="empty-search-state">
-            <strong>No encontramos coincidencias todavia.</strong>
-            <p>Prueba con una palabra corta como tos, dolor o nausea.</p>
+            <strong>No encontramos coincidencias todavía.</strong>
+            <p>Prueba con una palabra corta como tos, dolor o náusea.</p>
           </div>
         ) : null}
       </div>

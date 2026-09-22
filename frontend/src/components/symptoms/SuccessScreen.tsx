@@ -1,3 +1,4 @@
+import { CheckCircle2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 type SuccessScreenProps = {
@@ -14,12 +15,18 @@ export function SuccessScreen({
   return (
     <section className="mood-feedback-card symptom-success-card">
       <p className="eyebrow">Registro completado</p>
-      <h2>Gracias por registrar tu sintoma</h2>
+      <span className="symptom-success-icon" aria-hidden="true">
+        <CheckCircle2 size={30} />
+      </span>
+      <h2>Gracias por registrar tu síntoma</h2>
       <p className="mood-feedback-text">
-        Tu informacion ha sido guardada correctamente.
+        Tu información ha sido guardada correctamente.
       </p>
       <div className="summary-check-list">
-        <div>OK {symptomName}</div>
+        <div>
+          <CheckCircle2 size={18} aria-hidden="true" />
+          <span>{symptomName}</span>
+        </div>
       </div>
       <p className="mood-support-copy">{successMessage}</p>
       <div className="feedback-actions">
@@ -28,7 +35,7 @@ export function SuccessScreen({
           className="secondary-button mood-action-button"
           onClick={onManageAgain}
         >
-          Gestionar sintomas
+          Registrar otro síntoma
         </button>
         <Link to="/inicio" className="primary-button mood-action-button">
           Volver al inicio

@@ -30,7 +30,7 @@ const markers: MarkerConfig[] = [
   },
   {
     regionId: 'respiratory',
-    label: 'Respiracion',
+    label: 'Respiración',
     top: '34%',
     left: '50%',
     side: 'left',

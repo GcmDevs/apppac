@@ -2,7 +2,7 @@ import { findBodyRegionByCode } from '@/data/bodyRegions';
 import { getAuthSession } from '@/lib/auth';
 import type { QuickAccessCode, SymptomDefinition } from '@/types/symptoms';
 
-const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8104';
+const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8105';
 
 type BackendSymptomIntensity = {
   id: number;

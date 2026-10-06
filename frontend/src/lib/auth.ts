@@ -7,7 +7,7 @@ import type { AuthSession, AuthUser, UserRole } from '@/types/auth';
 import type { Patient } from '@/types/patient';
 
 const AUTH_STORAGE_KEY = 'eklipse-auth-session';
-const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8104';
+const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8105';
 const AUTH_CONTEXT = import.meta.env.VITE_AUTH_CONTEXT ?? 'ALTACENTRO';
 
 export type AppPacienteRol = 'USUARIO' | 'PACIENTE';

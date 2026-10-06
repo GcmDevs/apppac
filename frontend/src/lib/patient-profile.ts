@@ -1,6 +1,6 @@
 import { getAuthSession } from '@/lib/auth';
 
-const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8104';
+const API_BASE_URL = 'https://eklipse.grupoclinicamedicos.com:8105';
 
 export type PatientProfile = {
   id: number;
